@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Create new account</h1>
+			<h1>Login</h1>
 			<form class="login-form">
 				<label>
 					<span>Username:</span>
@@ -22,18 +22,9 @@
 					<span>Password:</span>
 					<input type="password" name="password" required>
 				</label>
-				<label>
-					<span>Firstname:</span>
-					<input type="text" name="firstname" required>
-				</label>
-				<label>
-					<span>Lastname:</span>
-					<input type="text" name="lastname" required>
-				</label>
-				<button type="submit">Create a new account</button>
+				<button type="submit">Log In</button>
 			</form>
-
-			<h2>Already have an account? <a href="/login">Click here to login</a></h2>
+      <h2>You don't have an account? <a href="/">Click here to create accout</a></h2>
 		</div>
 
 		<script>
@@ -44,12 +35,10 @@
 				const formData = new FormData(form)
 				const username = formData.get('username')
 				const password = formData.get('password')
-				const firstname = formData.get('fistname')
-				const lastname = formData.get('lastname')
 
 				console.log(JSON.stringify({ username, password }))
 
-				const response = await fetch(`http://localhost:3000/api/users/`, {
+				const response = await fetch(`http://localhost:3000/api/users/login`, {
 					method: 'POST',
 					headers: {
 						"Content-Type": 'application/json',
@@ -57,14 +46,11 @@
 					body: JSON.stringify({
 						"username": username,
 						"password": password,
-						"firstname":firstname,
-						"lastname":lastname
 					}),
 					credentials: 'include'
 				})
 				const data = await response.json()
-				console.log(data)
-				window.location.href = '/login'
+        if(data.status === 200) window.location.href = '/profile'
 			})
 		</script>
 	</body>

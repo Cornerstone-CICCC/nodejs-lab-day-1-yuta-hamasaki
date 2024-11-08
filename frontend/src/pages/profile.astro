@@ -1,0 +1,57 @@
+---
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<div class="container">
+      <h1>Your Profile</h1>
+      <h2 class="title">Loading... </h2>
+      <button id="logout">Logout</button>
+    </div>
+
+    <script>
+      const title = document.querySelector('.title') as HTMLHeadingElement
+      const btn = document.getElementById('logout')!
+    
+      const checkAuth = async () => {
+          const res = await fetch('http://localhost:3000/api/users/auth', {
+            credentials: 'include'
+          })
+
+          if (res.ok) {
+            const data = await res.json()
+            title.innerText = `Welcome ${data.username}!!!`
+            btn.addEventListener('click', async () => {logout(data.id)})
+          } else {
+            window.location.href = "/login"
+          }
+
+
+          const logout= (id:string)=>{
+            btn.addEventListener('click', async () => {
+          const deleteRes = await fetch(`http://localhost:3000/api/users/${id}`, {
+            method: "DELETE",
+            credentials: 'include'
+          })
+          if (deleteRes.ok) {
+            window.location.href = "./login"
+          }
+        })
+          }
+
+          
+      }
+    
+      checkAuth()
+    </script>
+    
+	</body>
+</html>
