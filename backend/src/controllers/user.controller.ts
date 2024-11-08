@@ -105,7 +105,6 @@ const userProfile = async (req: Request, res: Response) => {
     const userInfo = {
       id: user.id,
       username: user.username,
-      email: user.email,
     }
 
     res.status(200).json(userInfo)
